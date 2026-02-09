@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zielony tylko chodzi w gre.</title>
+    <style>
+        /* Stylizacja ogólna */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Kontener karty */
+        .container {
+            text-align: center;
+            background: white;
+            padding: 80px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 700px;
+            position: relative;
+        }
+
+        /* Obrazek */
+        .gif-container img {
+            width: 250px; /* Zwiększyłem trochę dla zdjęć */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        /* Tekst pytania */
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Przyciski */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background-color: #2ecc71;
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        #yesBtn:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        #noBtn {
+            background-color: #e74c3c;
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Ekran końcowy (sukces) */
+        .success-message {
+            display: none;
+            font-size: 28px;
+            color: #d63384;
+            font-weight: bold;
+            animation: popIn 0.5s ease;
+        }
+
+        .success-message img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="question-screen">
+            <div class="gif-container">
+                <img id="mainGif" src="zdjecie1.png" alt="Startowe zdjęcie">
+            </div>
+            <h1>Zostaniesz moją Walentynką? 😅</h1>
+            <div class="buttons">
+                <button id="yesBtn">TAK</button>
+                <button id="noBtn">Nie</button>
+            </div>
+        </div>
+
+        <div class="success-message" id="success-screen">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGphYjBiNGRqNWM5ZDh1bHFqdDVlb24xYXlvNWMwamdjY3draGpmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/c4ijLLteGHcas/giphy.gif" alt="Szczęśliwe zdjęcie">
+            <p>TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK JEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST </p>
+            <p style="font-size: 16px; color: #555;">
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionScreen = document.getElementById('question-screen');
+        const successScreen = document.getElementById('success-screen');
+        const mainGif = document.getElementById('mainGif');
+
+        // Teksty, które pojawiają się na przycisku NIE
+        const noTexts = [
+            "Nie",
+            "Nie ten przycisk kochanie",
+            "no cos ty 🤨",
+            "ZIELONY",
+            "ZIEEEEEEEEEELONY",
+            "...",
+            "no nie bądź taka ☹️",
+            "foch 🤐",
+            "ostatnia szansa",
+            
+        ];
+
+        let clickCount = 0;
+
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+            
+            // Zmiana tekstu na przycisku NIE
+            if (clickCount < noTexts.length) {
+                noBtn.innerText = noTexts[clickCount];
+            } else {
+                noBtn.innerText = noTexts[noTexts.length - 1];
+            }
+
+            // Powiększanie przycisku TAK
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            const newSize = currentSize * 1.5; // Rośnie o 50% za każdym razem
+            
+            yesBtn.style.fontSize = `${newSize}px`;
+            
+            // Zmiana zdjęcia na smutne przy pierwszym kliknięciu
+            if(clickCount === 1) {
+                // TUTAJ JEST ZMIANA NA ZDJĘCIE SMUTNE
+                mainGif.src = "zdjecie_smutne.png"; 
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionScreen.style.display = 'none';
+            successScreen.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
